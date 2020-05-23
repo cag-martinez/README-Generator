@@ -13,7 +13,7 @@ inquirer.prompt([
     message: "Which badge would you like to use?",
     name: "badge",
     choices: ["[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)",
-              "https://img.shields.io/github/license/cag-martinez/README-Generator?style=plastic",
+              "[![](https://img.shields.io/github/license/cag-martinez/README-Generator?style=plastic)]()",
             ]
 },
 {
@@ -115,51 +115,48 @@ inquirer.prompt([
 
     function tableOfContents(){
         if (answers.contents === true) {
-            return ` 
-            ### Table of contents
-            * Installtion
-            * usage
-            * Liscence
-            * Contributing
-            * Tests
-            `
+            return `## Table of contents
+* [Installation](#installation)
+* [Usage](#usage)
+* [License](#license)
+* [Contributing](#contributing)
+* [Tests](#tests)
+`
         }
         return ``
     }
 
-    var readME =`
-    # Title 
-    ${answers.title}
+    var readME = `# Title ${answers.title}
 
-    ### Badges 
-    ${answers.badge}
+## Badges 
+${answers.badge}
 
-    ### Description 
-    ${answers.description}
+## Description 
+${answers.description}
 
-    ${tableOfContents()}
+${tableOfContents()}
 
-    ### Installation 
-    ${answers.installation}
+## Installation 
+${answers.installation}
 
-    ### Usage 
-    ${answers.usage}
+## Usage 
+${answers.usage}
 
-    ### License 
-    ${answers.license}
+## License 
+${answers.license}
 
-    ### Contributing 
-    ${answers.contributing}
+## Contributing 
+${answers.contributing}
 
-    ### Tests 
-    ${answers.tests}
+## Tests 
+${answers.tests}
 
-    ### Users GitHub profile picture 
-    ${answers.picture}
-    
-    ### Users Github email 
-    ${answers.email}
-    `
+## Users GitHub profile picture 
+${answers.picture}
+
+## Users Github email 
+${answers.email}
+`
 
     fs.writeFile(filename, readME, function(err) {
         if (err) {
@@ -168,27 +165,3 @@ inquirer.prompt([
         console.log("answers saved in" + filename + "!");    
     });
 });
-
-
-// function writeToFile("generateMarkdown.js", data) {
-// }
-
-// function init() {
-
-// }
-
-// init();
-
-
-
-
-
-//console.log(JSON.stringify(answers, null, '  '));
-// inquirer.prompt(questions).then(answers => {
-//  console.log('\ninput:');
-//   console.log(JSON.stringify(answers, null, '  '));
-// });
-
-// module.exports = {
-//     questions: questions,
-// };
