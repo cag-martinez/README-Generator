@@ -9,9 +9,9 @@ inquirer.prompt([
     name: "title",
 },
 {
-    type: "checkbox",
-    message: "Which tag would you like to use?",
-    name: "tag",
+    type: "list",
+    message: "Which badge would you like to use?",
+    name: "badge",
     choices: ["[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)",
               "https://img.shields.io/github/license/cag-martinez/README-Generator?style=plastic",
             ]
@@ -24,7 +24,7 @@ inquirer.prompt([
 {
     type:"confirm",
     message: "Add table of contents?",
-    name: "table of contents",
+    name: "contents",
     default: true
 },
 {
@@ -112,7 +112,56 @@ inquirer.prompt([
 .then(function(answers) {
     console.log(answers);
     var filename = answers.title.split(" ").join("_").toLowerCase()+ ".md"
-    fs.writeFile(filename, JSON.stringify(answers, null, 2), function(err) {
+
+    function tableOfContents(){
+        if (answers.contents === true) {
+            return ` 
+            ### Table of contents
+            * Installtion
+            * usage
+            * Liscence
+            * Contributing
+            * Tests
+            `
+        }
+        return ``
+    }
+
+    var readME =`
+    # Title 
+    ${answers.title}
+
+    ### Badges 
+    ${answers.badge}
+
+    ### Description 
+    ${answers.description}
+
+    ${tableOfContents()}
+
+    ### Installation 
+    ${answers.installation}
+
+    ### Usage 
+    ${answers.usage}
+
+    ### License 
+    ${answers.license}
+
+    ### Contributing 
+    ${answers.contributing}
+
+    ### Tests 
+    ${answers.tests}
+
+    ### Users GitHub profile picture 
+    ${answers.picture}
+    
+    ### Users Github email 
+    ${answers.email}
+    `
+
+    fs.writeFile(filename, readME, function(err) {
         if (err) {
         return console.log(err);
         }
