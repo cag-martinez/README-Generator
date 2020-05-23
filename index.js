@@ -1,23 +1,31 @@
 var inquirer = require("inquirer");
 var fs = require('fs');
-var data =process.argv[2];
+//var data =process.argv[2];
 
-inquirer
-.prompt([
-    {
+inquirer.prompt([
+{
     type: "input",
     message:"What is the name of your project?",
     name: "title",
 },
 {
-    type: "inmput",
+    type: "checkbox",
+    message: "Which tag would you like to use?",
+    name: "tag",
+    choices: ["[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)",
+              "https://img.shields.io/github/license/cag-martinez/README-Generator?style=plastic",
+            ]
+},
+{
+    type: "input",
     message: "Write a brief description of your project:",
     name: "description",
 },
 {
     type:"confirm",
     message: "Add table of contents?",
-    name: "table of contents"
+    name: "table of contents",
+    default: true
 },
 {
     type:"input",
@@ -30,9 +38,54 @@ inquirer
     name: "usage",
 },
 {
-    type: "confirm",
+    type: "list",
     message: "License?",
     name: "license",
+    choices:[
+        {
+          "key": "mit",
+          "name": "MIT License",
+          "spdx_id": "MIT",
+          "url": "https://api.github.com/licenses/mit",
+          "node_id": "MDc6TGljZW5zZW1pdA=="
+        },
+        {
+          "key": "lgpl-3.0",
+          "name": "GNU Lesser General Public License v3.0",
+          "spdx_id": "LGPL-3.0",
+          "url": "https://api.github.com/licenses/lgpl-3.0"
+        },
+        {
+          "key": "mpl-2.0",
+          "name": "Mozilla Public License 2.0",
+          "spdx_id": "MPL-2.0",
+          "url": "https://api.github.com/licenses/mpl-2.0"
+        },
+        {
+          "key": "agpl-3.0",
+          "name": "GNU Affero General Public License v3.0",
+          "spdx_id": "AGPL-3.0",
+          "url": "https://api.github.com/licenses/agpl-3.0"
+        },
+        {
+          "key": "unlicense",
+          "name": "The Unlicense",
+          "spdx_id": "Unlicense",
+          "url": "https://api.github.com/licenses/unlicense"
+        },
+        {
+          "key": "apache-2.0",
+          "name": "Apache License 2.0",
+          "spdx_id": "Apache-2.0",
+          "url": "https://api.github.com/licenses/apache-2.0"
+        },
+        {
+          "key": "gpl-3.0",
+          "name": "GNU General Public License v3.0",
+          "spdx_id": "GPL-3.0",
+          "url": "https://api.github.com/licenses/gpl-3.0"
+        }
+      ],
 },
 {
     type: "confirm",
@@ -52,19 +105,41 @@ inquirer
 {
     type: "input",
     message: "Email address",
-    name: "email"
+    name: "email",
 },
+
 ])
-// const questions = [
-
-// ];
-
-.then(function(answers){
-    fs.writeToFile("markdown.md", data, function(err) {
-    if (err) {
+.then(function(answers) {
+    console.log(answers);
+    var filename = answers.title.split(" ").join("_").toLowerCase()+ ".md"
+    fs.writeFile(filename, JSON.stringify(answers, null, 2), function(err) {
+        if (err) {
         return console.log(err);
-    }
-    console.log('answers saved in markdown.md');
+        }
+        console.log("answers saved in" + filename + "!");    
+    });
 });
 
-});
+
+// function writeToFile("generateMarkdown.js", data) {
+// }
+
+// function init() {
+
+// }
+
+// init();
+
+
+
+
+
+//console.log(JSON.stringify(answers, null, '  '));
+// inquirer.prompt(questions).then(answers => {
+//  console.log('\ninput:');
+//   console.log(JSON.stringify(answers, null, '  '));
+// });
+
+// module.exports = {
+//     questions: questions,
+// };
